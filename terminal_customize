@@ -1,0 +1,30 @@
+bold=$(tput bold)
+blue=$(tput setaf 045)
+reset=$(tput sgr0)
+# git_branch() {
+#     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/\*\(.*\)/ \1 /'
+# }
+git_branch() {
+  git branch 2>/dev/null | grep '^*' | colrm 1 2
+}
+
+taj(){
+	if [[ -n $(git_branch) ]];then echo 🔸;fi
+}
+
+#\[$(tput blink)\]
+
+PS1="🕉️ \[$(tput setaf 237)\]===========================\[${reset}\] \n";
+PS1+="\[${blue}\]\[$(id -un)\]   \[$(tput setaf 220)\]\e[48;5;234m \t \e[0m \n ";
+PS1+="\[${reset}\]";
+PS1+="\[$(tput setaf 166)\]\w:$(tput setaf 220)    \$(taj)\$(git_branch)\n";
+PS1+="\[$(tput blink)\] \[${blue}\]=>\[${reset}\] \[$(tput setaf 251)\]"
+
+export PS1
+
+
+#parse_git_branch() {
+#     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+#}
+#export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
+
